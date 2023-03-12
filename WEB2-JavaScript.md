@@ -363,18 +363,47 @@ JavaScript가 HTML 을 제어하는 언어로, 웹 페이지를 동적으로, �
 
 ---
 
-## 배열과 반복문
+## console command
 
+`var alist = document.querySelectorAll('a');`
+
+ : `<a >`anchor 모두 노드 리스트로 반환
+
+
+`console.log(alist[0])` : 노드 리스트 idx 0 값을 콘솔창에 값 나타냄
+
+
+`console.log(alist[1])` : 노드 리스트 idx 1 값을 콘솔창에 값 나타냄
+
+
+`console.log(alist.length)` : 노드 리스트 길이 값을 콘솔창에 값 나타냄
+
+
+```
+var alist = document.querySelectorAll('a');
+
+i = 0;
+
+while(i < alist.length):
+    console.log(alist[i])
+    
+    alist[i].style.coler = 
+    
+    i = i +1
+
+```
 
 ---
 
 ## Refactoring  - 배열과 반복문의 활용
 
 
+반복문과 배열을 활용하여, css 스타일 옵션 처리
 
-- `document.querySelectorAll('a');`
 
-`<a >`anchor 모두 노드 리스트로 반환
+- `document.querySelector('a');`
+
+- `document.querySelectorAll('a');` : `<a >`anchor 모두 노드 리스트로 반환
 
 ```.html
 <!doctype html>
@@ -439,15 +468,179 @@ JavaScript가 HTML 을 제어하는 언어로, 웹 페이지를 동적으로, �
 
 - return
 
+- self
+
+- this
+
+
+## Refactoring - Function
+
+```.html
+<!doctype html>
+<html>
+
+<head>
+  <title>WEB2 - JavaScript</title>
+  <meta charset="utf-8">
+
+  <script>
+  function NightDayhandler(self){
+    var target = document.querySelector('body');
+     
+    if(self.value === 'night'){
+      target.style.backgroundColor = 'black';
+      target.style.color = 'white';
+      self.value = 'day';
+
+      var alist = document.querySelectorAll('a');
+      var i = 0;
+      while(i < alist.length){
+       alist[i].style.color = 'powderblue';
+       i = i + 1;
+     }
+    } else {
+      target.style.backgroundColor = 'white';
+      target.style.color = 'black';
+      self.value = 'night';
+      
+      var alist = document.querySelectorAll('a');
+      var i = 0;
+      while(i < alist.length){
+       alist[i].style.color = 'red';
+       i = i + 1;
+     }  
+
+    }
+
+  }
+</script>
+</head>
+
+<body>
+  
+  <h1><a href="index.html">WEB</a></h1>
+
+  <input id="night_day" type="button" value="night" onclick="
+     NightDayhandler(this);
+
+   ">
+
+  <ol>
+    <li><a href="1.html">HTML</a></li>
+    <li><a href="2.html">CSS</a></li>
+    <li><a href="3.html">JavaScript</a></li>
+  </ol>
+
+  <h2>JavaScript</h2>
+  
+  <p>
+    JavaScript (/ˈdʒɑːvəˌskrɪpt/[6]), often abbreviated as JS, is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language. Alongside HTML and CSS, JavaScript is one of the three core technologies of World Wide Web content production. It is used to make webpages interactive and provide online programs, including video games. The majority of websites employ it, and all modern web browsers support it without the need for plug-ins by means of a built-in JavaScript engine. Each of the many JavaScript engines represent a different implementation of JavaScript, all based on the ECMAScript specification, with some engines not supporting the spec fully, and with many engines supporting additional features beyond ECMA.
+  </p>
+
+</body>
+
+</html>
+
+```
+
+
+
 ---
 
 ## Object (객체)
 
-- Property & Method
+- 생성, 입력, 출력
 
-- method 도 클래스내 소속으로 `key` 로 출력 됨
+- Property (객체 소속 변수) & Method (객체 소속 함수)
+     - 둘다 `key` : method 도 클래스내 `key`로 [coworker.showall] 이므로 key 출력시 method key 도 출력됨
 
 
+
+## Refactoring - Object
+
+
+```.html
+
+<!doctype html>
+<html>
+
+<head>
+  <title>WEB2 - JavaScript</title>
+  <meta charset="utf-8">
+
+  <script>
+
+  var Links = {
+    setColor:function(color){
+      var alist = document.querySelectorAll('a');
+      var i = 0;
+      while(i < alist.length){
+        alist[i].style.color = color;
+        i = i + 1;
+      }
+    }
+  }
+
+  var Body = {
+    setColor:function (color){
+      document.querySelector('body').style.color = color;
+    },
+    setBackgroundColor:function (color){
+      document.querySelector('body').style.backgroundColor = color;
+    }
+  }
+
+
+  function NightDayhandler(self){
+    var target = document.querySelector('body');
+     
+    if(self.value === 'night'){
+      Body.backgroundColor = 'black';
+      Body.color = 'white';
+      self.value = 'day';
+
+      Links.setColor('powderblue')
+
+    } else {
+      Body.backgroundColor = 'white';
+      Body.color = 'black';
+      self.value = 'night';
+      
+      Links.setColor('red')
+    }
+
+  }
+</script>
+</head>
+
+<body>
+  
+  <h1><a href="index.html">WEB</a></h1>
+
+  <input id="night_day" type="button" value="night" onclick="
+     NightDayhandler(this);
+
+   ">
+
+  <ol>
+    <li><a href="1.html">HTML</a></li>
+    <li><a href="2.html">CSS</a></li>
+    <li><a href="3.html">JavaScript</a></li>
+  </ol>
+
+  <h2>JavaScript</h2>
+  
+  <p>
+    JavaScript (/ˈdʒɑːvəˌskrɪpt/[6]), often abbreviated as JS, is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language. Alongside HTML and CSS, JavaScript is one of the three core technologies of World Wide Web content production. It is used to make webpages interactive and provide online programs, including video games. The majority of websites employ it, and all modern web browsers support it without the need for plug-ins by means of a built-in JavaScript engine. Each of the many JavaScript engines represent a different implementation of JavaScript, all based on the ECMAScript specification, with some engines not supporting the spec fully, and with many engines supporting additional features beyond ECMA.
+  </p>
+
+</body>
+
+</html>
+
+
+
+```
 
 ---
 
